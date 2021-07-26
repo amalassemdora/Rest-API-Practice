@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px double red;
+            background-color: rgb(243, 213, 213);
+            padding: 2px;
+        }
+
+        th {
+            text-align: center;
+        }
+    </style>
+    <script src="Scripts//jquery-3.6.0.js"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                url: 'http://localhost:55002/api/students',
+                method: 'GET',
+                success: function (data) {
+                    alert(JSON.stringify(data));
+                    async function getPost() {
+                        let myPost;
+
+                        try {
+                            let response = await fetch("http://localhost:55002/api/students", {
+                                method: "Get",
+                            });
+                            myPost = await response.json();
+                            console.log(myPost);
+                        } catch (err) {
+                            console.log(err);
+                        }
+                        document.getElementById("table").innerHTML = "<tr><th>ID</th><th>FName</th><th>LName</th><th>Address</th><th>Age</th><th>Department</th></tr>"
+                        let MyPost = myPost.map((myPost, index) => {
+
+                            return `<tr><td>${myPost.St_Id}</td><td>${myPost.St_Fname}</td><td>${myPost.St_Lname}</td><td>${myPost.St_Address}</td><td>${myPost.St_Age}</td><td>${myPost.Dept_Id}</td></tr>`
+                        })
+                        document.getElementById("table").innerHTML += MyPost.join('');
+                    }
+                    getPost();
+                
+                },
+                error: function () {
+                    alert("error")
+                }
+            })
+        })
+       
+    </script>
+</head>
+<body>
+    <table id="table">
+    </table>
+</body>
+</html>
